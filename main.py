@@ -27,16 +27,13 @@ db: List[UserBase] = [
             role=[Role.role_3]),
 ]
 
-
 @app.get("/")
 async def root():
 	return {"message": "Ei, Ana! Finalmente deu certo, né?"}
 
-
 @app.get("/api/users")
 async def get_users():
 	return db
-
 
 @app.get("/api/users/{id}")
 async def get_user(id: UUID):
@@ -45,7 +42,6 @@ async def get_user(id: UUID):
 			return user
 	return {"message": "Usuário não está aqui!"}
 
-
 @app.put("/api/users/{id}")
 async def get_user(id: UUID, user_update: UserUpdate):
 	for index, user in enumerate(db):
@@ -53,7 +49,6 @@ async def get_user(id: UUID, user_update: UserUpdate):
 			db[index] = user_update
 			return user_update
 	return {"message": "Usuário não encontrado!"}
-
 
 @app.post("/api/users")
 async def create_user(user: UserCreate):
@@ -67,7 +62,6 @@ async def create_user(user: UserCreate):
 	"""
 	db.append(user)
 	return user
-
 
 @app.delete("/api/users/{id}")
 async def delete_user(id: UUID):
