@@ -10,9 +10,18 @@ class Role(str, Enum):
 	role_3 = "instrutora"
 
 
-class User(BaseModel):
+#propriedades
+class UserBase(BaseModel):
 	id: Optional[UUID] = uuid4()
-	first_name: str
-	last_name: str
-	email: str
-	role: List[Role]
+	first_name: Optional[str]
+	last_name: Optional[str]
+	email: Optional[str]
+	role: Optional[List[Role]]
+
+
+class UserCreate(UserBase):
+	pass
+
+
+class UserUpdate(UserBase):
+	pass
