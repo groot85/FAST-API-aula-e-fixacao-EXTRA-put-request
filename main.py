@@ -3,6 +3,8 @@ from uuid import UUID  #gerar id automatico e aleatorio
 from typing import List  #para importar minha classe ede lista que está no models
 from models import User, Role  # from pydantic import BaseModel
 
+#material para documentacao: https://docs.github.com/pt/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
+
 app = FastAPI()
 
 db: List[User] = [
@@ -23,13 +25,16 @@ db: List[User] = [
       role=[Role.role_3]),
 ]
 
+
 @app.get("/")
 async def root():
 	return {"message": "Ei, Ana! Finalmente deu certo, né?"}
 
+
 @app.get("/api/users")
 async def get_users():
 	return db
+
 
 @app.get("/api/users/{id}")
 async def get_user(id: UUID):
@@ -38,10 +43,20 @@ async def get_user(id: UUID):
 			return user
 	return {"message": "Usuário não está aqui!"}
 
+
 @app.post("/api/users")
 async def add_user(user: User):
+	"""
+	Adicionar um usuário na nossa base de dados:
+	- **id**: UUID
+	- **first_name**: string
+	- **last_name**: string
+	- **email**: string
+	- **role**: Role
+	"""
 	db.append(user)
 	return {"id": user.id}
+
 
 @app.delete("/api/users/{id}")
 async def remove_user(id: UUID):
@@ -49,7 +64,5 @@ async def remove_user(id: UUID):
 		if user.id == id:
 			db.remove(user)
 			return
-	raise HTTPException(
-		status_code=404,
-		detail=f"Usuário com id {id} não está aqui!"
-	)
+	raise HTTPException(status_code=404,
+	                    detail=f"Usuário com id {id} não está aqui!")
